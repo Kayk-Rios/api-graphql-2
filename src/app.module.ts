@@ -2,9 +2,8 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
+import { FloodedPlacesModule } from './flooded-places/flooded-places.module';
 
 @Module({
   imports: [
@@ -14,9 +13,9 @@ import { PrismaModule } from './prisma/prisma.module';
       sortSchema: true,
     }),
     PrismaModule,
-    
+    FloodedPlacesModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
