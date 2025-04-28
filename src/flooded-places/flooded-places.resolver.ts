@@ -1,4 +1,4 @@
-import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FloodedPlacesService } from './flooded-places.service';
 import { FloodedPlace } from './flooded-place.model';
 
@@ -17,4 +17,21 @@ export class FloodedPlacesResolver {
   ): Promise<FloodedPlace[]> {
     return this.FloodedPlacesService.findByState(state);
   }
+
+  @Mutation(() => FloodedPlace)
+  async createFloodedPlace(
+    @Args('name') name: string,
+    @Args('description') description: string,
+    @Args('state') state: string,
+    @Args('imageUrl') imageUrl?: string,
+  ): Promise<FloodedPlace> {
+    return this.FloodedPlacesService.create(
+      name, 
+      description,
+      state, 
+      imageUrl
+    );  
+  }
+  
+
 }
