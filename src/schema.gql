@@ -2,6 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateFloodedPlaceInput {
+  description: String!
+  id: Int!
+  imageUrl: String
+  name: String!
+  state: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -17,7 +25,21 @@ type FloodedPlace {
   updatedAt: DateTime!
 }
 
+type Mutation {
+  createFloodedPlace(input: CreateFloodedPlaceInput!): FloodedPlace!
+  deleteFloodedPlace(id: Int!): FloodedPlace!
+  updateFloodedPlace(input: UpdateFloodedPlaceInput!): FloodedPlace!
+}
+
 type Query {
   FloodedPlace: [FloodedPlace!]!
-  FloodedPlaceByState(state: String!): [FloodedPlace!]!
+  floodedPlacesByState(state: String!): [FloodedPlace!]!
+}
+
+input UpdateFloodedPlaceInput {
+  description: String
+  id: Int!
+  imageUrl: String
+  name: String
+  state: String
 }
