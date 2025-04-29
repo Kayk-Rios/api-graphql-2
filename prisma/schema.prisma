@@ -10,9 +10,8 @@ generator client {
 
 datasource db {
   provider = "sqlite" 
-  url      = "file::memory:"
-  // url      = "file:./dev.db"
-
+  url      = "file:./dev.db"
+ // url      = "file::memory:"
  
 }
 
