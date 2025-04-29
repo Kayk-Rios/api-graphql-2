@@ -1,6 +1,8 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FloodedPlacesService } from './flooded-places.service';
 import { FloodedPlace } from './flooded-place.model';
+import { CreateFloodedPlaceInput } from './dto/create-flooded-place.input';
+import { UpdateFloodedPlaceInput } from './dto/update-flooded-place.input';
 
 @Resolver()
 export class FloodedPlacesResolver {
@@ -11,27 +13,43 @@ export class FloodedPlacesResolver {
     return this.FloodedPlacesService.findAll();
   }
 
-  @Query(() => [FloodedPlace])
-  async FloodedPlaceByState(
+  @Query(() => [FloodedPlace], { name: 'floodedPlacesByState' })
+  async findByState(
     @Args('state') state: string,
   ): Promise<FloodedPlace[]> {
     return this.FloodedPlacesService.findByState(state);
   }
 
+
   @Mutation(() => FloodedPlace)
   async createFloodedPlace(
-    @Args('name') name: string,
-    @Args('description') description: string,
-    @Args('state') state: string,
-    @Args('imageUrl') imageUrl?: string,
+    @Args('input') input: CreateFloodedPlaceInput,
   ): Promise<FloodedPlace> {
     return this.FloodedPlacesService.create(
-      name, 
-      description,
-      state, 
-      imageUrl
-    );  
+      input.name,
+      input.description,
+      input.state,
+      input.imageUrl,
+    );
   }
-  
 
+  @Mutation(() => FloodedPlace)
+  async updateFloodedPlace(
+    @Args('input') input: UpdateFloodedPlaceInput,
+  ): Promise<FloodedPlace> {
+    return this.FloodedPlacesService.update(
+      input.id,
+      input.name,
+      input.description,
+      input.state,
+      input.imageUrl,
+    );
+  }
+
+  @Mutation(() => FloodedPlace)
+  async deleteFloodedPlace(
+    @Args('id', { type: () => Int }) id: number,
+  ): Promise<FloodedPlace> {
+    return this.FloodedPlacesService.delete(id);
+  }
 }
